@@ -64,7 +64,9 @@ const playButton = document.getElementById("playbutton");
 const saveplaymode = document.getElementById("saveplaymodesession");
 const loadplaymode = document.getElementById("loadplaymodesession");
 const playedplaymode = document.getElementById("playandoppplayed");
+const playmodestatus = document.getElementById("playstatus");
 
+playmodestatus.innerHTML = "Playmode is off"
 playedplaymode.disabled = true;
 
 let inPlayMode = false;
@@ -368,9 +370,6 @@ function unmakeTurn(turn, meToMove)
     else { oppColor = turn.previousColor; }
 }
 
-//evaluation function evaluating...
-//# of cells captured
-//number of cells touching?
 function evaluate(game)
 {
     let myCells = myTerritory.length;
@@ -663,9 +662,12 @@ function playmodeStart()
 {
     inPlayMode = true;
     pm_colorSelected = false;
+    playModeMyTurn = myTurnCheckbox.checked;
     playButton.innerHTML = "Exit Playmode"
 
     redrawPreviousBox();
+
+    playmodestatus.innerHTML = playModeMyTurn ? "Starting search..." : "Waiting for Opponent";
 }
 
 function clickEvent(canvas, event) {
@@ -676,21 +678,24 @@ function clickEvent(canvas, event) {
     clickedBox = getMouseBox(x, y);
     if(clickedBox != -1)
     {
-        selectedColor = clickedBox;
-
-        let selectedBoxX = canvas.width / 2  + (selectorGap + squareSize) * (clickedBox-4) + selectorGap/2;
-
-        redrawPreviousBox();
-
-        ctx.fillStyle = colors[clickedBox];
-        ctx.fillRect(selectedBoxX - selectedBoxSizeDiff / 2, selectorDistFromTop - selectedBoxSizeDiff / 2, squareSize + selectedBoxSizeDiff, squareSize + selectedBoxSizeDiff);
-
-        previousSelectedBox = clickedBox;
-
-        if(inPlayMode)
+        if(!inPlayMode || (inPlayMode && !playModeMyTurn))
         {
-            pm_colorSelected = true;
-            playedplaymode.disabled = false;
+            selectedColor = clickedBox;
+
+            let selectedBoxX = canvas.width / 2  + (selectorGap + squareSize) * (clickedBox-4) + selectorGap/2;
+
+            redrawPreviousBox();
+
+            ctx.fillStyle = colors[clickedBox];
+            ctx.fillRect(selectedBoxX - selectedBoxSizeDiff / 2, selectorDistFromTop - selectedBoxSizeDiff / 2, squareSize + selectedBoxSizeDiff, squareSize + selectedBoxSizeDiff);
+
+            previousSelectedBox = clickedBox;
+
+            if(inPlayMode)
+            {
+                pm_colorSelected = true;
+                playedplaymode.disabled = false;
+            }
         }
     }
     else
@@ -883,6 +888,13 @@ playButton.addEventListener("click", function(){
 playedplaymode.addEventListener("click", function(){
     if(pm_colorSelected)
     {
-
+        if(playModeMyTurn)
+        {
+            
+        }
+        else
+        {
+            
+        }
     }
 });
