@@ -431,7 +431,7 @@ function search(depth, alpha, beta, doQuiescenceSearch)
         //recursive search
         let eval = -search(depth - 1, -alpha, -beta, doQuiescenceSearch);
 
-        searchTurn = !searchTurn;
+        searchTurn = !searchTurn;bestTurn
         unmakeTurn(searchTurns[i], searchTurn);
 
         if(eval > alpha)
@@ -658,6 +658,7 @@ function searchFinish()
     playButton.disabled = false;
 }
 
+let playmodeMyBestMove = new Turn();
 function playmodeStart()
 {
     inPlayMode = true;
@@ -885,13 +886,13 @@ playButton.addEventListener("click", function(){
     playmodeStart();
 });
 
-function getTurnToProcess(myTurn)
+function getTurnToProcess(myTurn, color)
 {
     turns = generateTurns(myTurn, true);
     outputTurn = new Turn();
     for(let i = 0; i < turns.length; i++)
     {
-        if(turns[i].selectedColor == selectedColor)
+        if(turns[i].selectedColor == color)
         {
             outputTurn = turns[i];
             break;
@@ -902,26 +903,21 @@ function getTurnToProcess(myTurn)
 }
 
 playedplaymode.addEventListener("click", function(){
-    searchGame = currentGame;
     if(pm_colorSelected)
     {
+        searchGame = currentGame;
+        myTerritory = findTerritory([0, 6]);
+        oppTerritory = findTerritory([7, 0]);
+        meToMove = playModeMyTurn;
         if(playModeMyTurn)
         {
-            
-        }
-        else
-        {
-            oppTerritory = findTerritory([7, 0]);
-            meToMove = false;
-            
-            currentGame[7][0] = oppCaptured;
-            turnToProcess = getTurnToProcess(false);
-            for(let i = 0; i < turnToProcess.capturedThisTurn.length; i++)
+            currentGame[0][6] = myCaptured;
+            for(let i = 0; i < playmodeMyBestMove.capturedThisTurn.length; i++)
             {
-                let coordinate = turnToProcess.capturedThisTurn[i];
+                let coordinate = playmodeMyBestMove.capturedThisTurn[i];
                 currentGame[coordinate[0]][coordinate[1]] = oppCaptured;
             }
-
+    
             territoryToProcess = findTerritory([7, 0]);
             for(let i = 0; i < territoryToProcess.length; i++)
             {
@@ -929,6 +925,29 @@ playedplaymode.addEventListener("click", function(){
                 ctx.fillStyle = colors[selectedColor];  
                 ctx.fillRect(leftOffset + (coordinate[0] * squareSize), coordinate[1] * squareSize + topMargin, squareSize,  squareSize);  
             }
+        }
+        else
+        {
+            currentGame[7][0] = oppCaptured;
+            let turnToProcess = getTurnToProcess(false, selectedColor);
+            for(let i = 0; i < turnToProcess.capturedThisTurn.length; i++)
+            {
+                let coordinate = turnToProcess.capturedThisTurn[i];
+                currentGame[coordinate[0]][coordinate[1]] = oppCaptured;
+            }
+
+            let territoryToProcess = findTerritory([7, 0]);
+            for(let i = 0; i < territoryToProcess.length; i++)
+            {
+                let coordinate = territoryToProcess[i];
+                ctx.fillStyle = colors[selectedColor];  
+                ctx.fillRect(leftOffset + (coordinate[0] * squareSize), coordinate[1] * squareSize + topMargin, squareSize,  squareSize);  
+            }
+
+            oppTurnCheckbox.checked = false;
+            myTurnCheckbox.checked = true;
+            startSearch();
+            playmodeMyBestMove = bestTurn;
         }
     }
 });
