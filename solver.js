@@ -678,7 +678,7 @@ function clickEvent(canvas, event) {
     clickedBox = getMouseBox(x, y);
     if(clickedBox != -1)
     {
-        if(!inPlayMode || (inPlayMode && !playModeMyTurn))
+        if(!inPlayMode || (inPlayMode && !playModeMyTurn && (clickedBox != currentGame[0][6] && clickedBox != currentGame[7][0])))
         {
             selectedColor = clickedBox;
 
@@ -885,7 +885,24 @@ playButton.addEventListener("click", function(){
     playmodeStart();
 });
 
+function getTurnToProcess(myTurn)
+{
+    turns = generateTurns(myTurn, true);
+    outputTurn = new Turn();
+    for(let i = 0; i < turns.length; i++)
+    {
+        if(turns[i].selectedColor == selectedColor)
+        {
+            outputTurn = turns[i];
+            break;
+        }
+    }
+
+    return outputTurn;
+}
+
 playedplaymode.addEventListener("click", function(){
+    searchGame = currentGame;
     if(pm_colorSelected)
     {
         if(playModeMyTurn)
@@ -894,7 +911,24 @@ playedplaymode.addEventListener("click", function(){
         }
         else
         {
+            oppTerritory = findTerritory([7, 0]);
+            meToMove = false;
             
+            currentGame[7][0] = oppCaptured;
+            turnToProcess = getTurnToProcess(false);
+            for(let i = 0; i < turnToProcess.capturedThisTurn.length; i++)
+            {
+                let coordinate = turnToProcess.capturedThisTurn[i];
+                currentGame[coordinate[0]][coordinate[1]] = oppCaptured;
+            }
+
+            territoryToProcess = findTerritory([7, 0]);
+            for(let i = 0; i < territoryToProcess.length; i++)
+            {
+                let coordinate = territoryToProcess[i];
+                ctx.fillStyle = colors[selectedColor];  
+                ctx.fillRect(leftOffset + (coordinate[0] * squareSize), coordinate[1] * squareSize + topMargin, squareSize,  squareSize);  
+            }
         }
     }
 });
