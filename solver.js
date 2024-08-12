@@ -940,6 +940,8 @@ playedplaymode.addEventListener("click", function(){
                 currentGame[coordinate[0]][coordinate[1]] = oppCaptured;
             }
 
+            oppColor = selectedColor;
+
             let territoryToProcess = findTerritory([7, 0]);
             for(let i = 0; i < territoryToProcess.length; i++)
             {
