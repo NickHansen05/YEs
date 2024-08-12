@@ -600,9 +600,6 @@ function startSearch()
     useIterativeDeeping = iterDeepeningCheckbox.checked;
     bestTurnInLastIterativeDeepeningSearch = new Turn([], 0, 10);
 
-    myColor = searchGame[0][6];
-    oppColor = searchGame[7][0];
-
     numPositionsSearched = 0;
     numQuiescencePositionsSearched = 0;
     numNodes = 0;
@@ -712,6 +709,9 @@ function clickEvent(canvas, event) {
                     ctx.fillStyle = colors[selectedColor];
                     ctx.fillRect(leftOffset + (gridCoord[0] * squareSize), gridCoord[1] * squareSize + topMargin, squareSize,  squareSize);  
                     currentGame[gridCoord[0]][gridCoord[1]] = selectedColor;
+                    
+                    if(arraysEqual(gridCoord, [0, 6])) { myColor = selectedColor; }
+                    if(arraysEqual(gridCoord, [7, 0])) { oppColor = selectedColor; }
                 }
             }
         }
@@ -880,6 +880,10 @@ loadButton.addEventListener("click", function(){
             }
         }
     }
+
+    myColor = currentGame[0][6];
+    oppColor = currentGame[7][0];
+    console.log(currentGame);
 });
 
 playButton.addEventListener("click", function(){
