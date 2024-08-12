@@ -948,6 +948,8 @@ playedplaymode.addEventListener("click", function(){
             myTurnCheckbox.checked = true;
             startSearch();
             playmodeMyBestMove = bestTurn;
+            playModeMyTurn = true;
+            redrawPreviousBox();
         }
     }
 });
