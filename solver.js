@@ -732,7 +732,7 @@ function updateEnterPlaymodeButton()
     }
     else
     {
-        playedplaymode.innerHTML = "Opponent played this!"
+        playedplaymode.innerHTML = "Opponent played this!";
     }
     pm_colorSelected = false;
 
@@ -919,16 +919,24 @@ playedplaymode.addEventListener("click", function(){
             for(let i = 0; i < playmodeMyBestMove.capturedThisTurn.length; i++)
             {
                 let coordinate = playmodeMyBestMove.capturedThisTurn[i];
-                currentGame[coordinate[0]][coordinate[1]] = oppCaptured;
+                currentGame[coordinate[0]][coordinate[1]] = myCaptured;
             }
     
-            territoryToProcess = findTerritory([7, 0]);
+            territoryToProcess = findTerritory([0, 6]);
             for(let i = 0; i < territoryToProcess.length; i++)
             {
                 let coordinate = territoryToProcess[i];
-                ctx.fillStyle = colors[selectedColor];  
+                ctx.fillStyle = colors[playmodeMyBestMove.selectedColor];  
                 ctx.fillRect(leftOffset + (coordinate[0] * squareSize), coordinate[1] * squareSize + topMargin, squareSize,  squareSize);  
             }
+
+            oppTurnCheckbox.checked = true;
+            myTurnCheckbox.checked = false;
+            playedplaymode.disabled = true;
+            playModeMyTurn = false;
+            myColor = playmodeMyBestMove.capturedThisTurn;
+
+            playedplaymode.innerHTML = "Opponent played this!";
         }
         else
         {
@@ -956,6 +964,8 @@ playedplaymode.addEventListener("click", function(){
             playmodeMyBestMove = bestTurn;
             playModeMyTurn = true;
             redrawPreviousBox();
+
+            playedplaymode.innerHTML = "I played my move!";
         }
     }
 });
