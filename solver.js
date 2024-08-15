@@ -688,7 +688,7 @@ function clickEvent(canvas, event) {
     clickedBox = getMouseBox(x, y);
     if(clickedBox != -1)
     {
-        if(!inPlayMode || (inPlayMode && !playModeMyTurn && (clickedBox != currentGame[0][6] && clickedBox != currentGame[7][0])))
+        if(!inPlayMode || (inPlayMode && !playModeMyTurn && (clickedBox != myColor && clickedBox != oppColor)))
         {
             selectedColor = clickedBox;
 
