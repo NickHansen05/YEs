@@ -288,6 +288,18 @@ function generateTurns(meToMove, generateQuietMoves)
 
         turnsArray.push(new Turn(generatedTurns[i], i + 1, searchTurn ? myColor : oppColor));
     }
+
+    if(turnsArray.length == 0)
+    {
+        for(let i = 1; i < 7; i++)
+        {
+            if(i != myColor && i != oppColor)
+            {
+                turnsArray.push(new Turn([], i, searchTurn ? myColor : oppColor))
+            }
+        }
+    }
+
     return turnsArray;
 }
 
@@ -739,6 +751,8 @@ function updateEnterPlaymodeButton()
     redrawPreviousBox();
 }
 
+updateEnterPlaymodeButton();
+
 myTurnCheckbox.addEventListener("change", function(){
     oppTurnCheckbox.checked = !myTurnCheckbox.checked;
     playedplaymode.disabled = true;
@@ -934,7 +948,7 @@ playedplaymode.addEventListener("click", function(){
             myTurnCheckbox.checked = false;
             playedplaymode.disabled = true;
             playModeMyTurn = false;
-            myColor = playmodeMyBestMove.capturedThisTurn;
+            myColor = playmodeMyBestMove.selectedColor;
 
             playedplaymode.innerHTML = "Opponent played this!";
         }
