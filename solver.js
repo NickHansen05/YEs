@@ -678,6 +678,16 @@ function playmodeStart()
     redrawPreviousBox();
 
     playmodestatus.innerHTML = playModeMyTurn ? "Starting search..." : "Waiting for Opponent";
+
+    myTurnCheckbox.disabled = true;
+    oppTurnCheckbox.disabled = true;
+    iterDeepeningCheckbox.disabled = true;
+    infiniteDepthSelector.disabled = true;
+    quiescenceSearchCheckbox.disabled = true;
+    quiLimitInputField.disabled = true;
+    depthInputField.disabled = true;
+    goButton.disabled = true;
+    stopButton.disabled = true;
 }
 
 function clickEvent(canvas, event) {
@@ -901,7 +911,14 @@ loadButton.addEventListener("click", function(){
 });
 
 playButton.addEventListener("click", function(){
-    playmodeStart();
+    if(inPlayMode)
+    {
+
+    }
+    else
+    {
+        playmodeStart();
+    }
 });
 
 function getTurnToProcess(myTurn, color)
@@ -980,6 +997,15 @@ playedplaymode.addEventListener("click", function(){
             redrawPreviousBox();
 
             playedplaymode.innerHTML = "I played my move!";
+            myTurnCheckbox.disabled = true;
+            oppTurnCheckbox.disabled = true;
+            iterDeepeningCheckbox.disabled = true;
+            infiniteDepthSelector.disabled = true;
+            quiescenceSearchCheckbox.disabled = true;
+            quiLimitInputField.disabled = true;
+            depthInputField.disabled = true;
+            goButton.disabled = true;
+            stopButton.disabled = true;
         }
     }
 });
