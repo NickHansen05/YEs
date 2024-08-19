@@ -673,7 +673,7 @@ function playmodeStart()
     inPlayMode = true;
     pm_colorSelected = false;
     playModeMyTurn = myTurnCheckbox.checked;
-    playButton.innerHTML = "Exit Playmode"
+    playButton.innerHTML = "Exit Playmode!"
 
     redrawPreviousBox();
 
@@ -688,6 +688,22 @@ function playmodeStart()
     depthInputField.disabled = true;
     goButton.disabled = true;
     stopButton.disabled = true;
+}
+
+function playmodeExit()
+{
+    inPlayMode = false
+    playButton.innerHTML = "Enter Playmode!"
+
+    myTurnCheckbox.disabled = false;
+    oppTurnCheckbox.disabled = false;
+    iterDeepeningCheckbox.disabled = false;
+    infiniteDepthSelector.disabled = false;
+    quiescenceSearchCheckbox.disabled = false;
+    quiLimitInputField.disabled = false;
+    depthInputField.disabled = false;
+    goButton.disabled = false;
+    stopButton.disabled = false;
 }
 
 function clickEvent(canvas, event) {
@@ -913,7 +929,7 @@ loadButton.addEventListener("click", function(){
 playButton.addEventListener("click", function(){
     if(inPlayMode)
     {
-
+        playmodeExit();
     }
     else
     {
