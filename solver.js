@@ -664,7 +664,6 @@ function setAllUI(state)
     depthInputField.disabled = state;
     goButton.disabled = state;
     stopButton.disabled = state;
-    playButton.disabled = state;
 }
 
 function searchFinish()
@@ -935,6 +934,8 @@ playButton.addEventListener("click", function(){
     else
     {
         playmodeStart();
+        playedplaymode.disabled = false;
+        pm_colorSelected = true;
     }
 });
 
