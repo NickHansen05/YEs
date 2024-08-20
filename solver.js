@@ -682,7 +682,7 @@ function playmodeStart()
 
     redrawPreviousBox();
 
-    playmodestatus.innerHTML = playModeMyTurn ? "Starting search..." : "Waiting for Opponent";
+    playmodestatus.innerHTML = playModeMyTurn ? "Starting search..." : "Waiting for Opponent...";
 
     setAllUI(true);
 
@@ -695,6 +695,7 @@ function playmodeStart()
 
         playedplaymode.innerHTML = "I played my move!";
         setAllUI(true);
+        playmodestatus.innerHTML = "Waiting for you to play...";
     }
 }
 
@@ -702,6 +703,7 @@ function playmodeExit()
 {
     inPlayMode = false
     playButton.innerHTML = "Enter Playmode!"
+    playmodestatus.innerHTML = "Playmode is off";
 
     setAllUI(false);
 }
@@ -986,6 +988,7 @@ playedplaymode.addEventListener("click", function(){
             myColor = playmodeMyBestMove.selectedColor;
 
             playedplaymode.innerHTML = "Opponent played this!";
+            playmodestatus.innerHTML = "Waiting for Opponent...";
         }
         else
         {
@@ -1009,6 +1012,7 @@ playedplaymode.addEventListener("click", function(){
 
             oppTurnCheckbox.checked = false;
             myTurnCheckbox.checked = true;
+            playmodestatus.innerHTML = "Waiting for you to play...";
             startSearch();
             playmodeMyBestMove = bestTurn;
             playModeMyTurn = true;
