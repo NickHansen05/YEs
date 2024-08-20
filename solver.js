@@ -664,11 +664,13 @@ function setAllUI(state)
     depthInputField.disabled = state;
     goButton.disabled = state;
     stopButton.disabled = state;
+    playButton.disabled = state;
 }
 
 function searchFinish()
 {
     setAllUI(false);
+    playButton.disabled = false;
 }
 
 let playmodeMyBestMove = new Turn();
