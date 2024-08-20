@@ -653,18 +653,22 @@ function startSearch()
     console.log(bestTurn);
 }
 
+function setAllUI(state)
+{
+    myTurnCheckbox.disabled = state;
+    oppTurnCheckbox.disabled = state;
+    iterDeepeningCheckbox.disabled = state;
+    infiniteDepthSelector.disabled = state;
+    quiescenceSearchCheckbox.disabled = state;
+    quiLimitInputField.disabled = state;
+    depthInputField.disabled = state;
+    goButton.disabled = state;
+    stopButton.disabled = state;
+}
+
 function searchFinish()
 {
-    goButton.disabled = false;
-    stopButton.disabled = true;
-    depthInputField.disabled = false;
-    infiniteDepthSelector.disabled = false;
-    myTurnCheckbox.disabled = false;
-    oppTurnCheckbox.disabled = false;
-    iterDeepeningCheckbox.disabled = false;
-    quiescenceSearchCheckbox.disabled = false;
-    quiLimitInputField.disabled = false;
-    playButton.disabled = false;
+    setAllUI(false);
 }
 
 let playmodeMyBestMove = new Turn();
@@ -679,15 +683,18 @@ function playmodeStart()
 
     playmodestatus.innerHTML = playModeMyTurn ? "Starting search..." : "Waiting for Opponent";
 
-    myTurnCheckbox.disabled = true;
-    oppTurnCheckbox.disabled = true;
-    iterDeepeningCheckbox.disabled = true;
-    infiniteDepthSelector.disabled = true;
-    quiescenceSearchCheckbox.disabled = true;
-    quiLimitInputField.disabled = true;
-    depthInputField.disabled = true;
-    goButton.disabled = true;
-    stopButton.disabled = true;
+    setAllUI(true);
+
+    if(playModeMyTurn)
+    {
+        startSearch();
+        playmodeMyBestMove = bestTurn;
+        playModeMyTurn = true;
+        redrawPreviousBox();
+
+        playedplaymode.innerHTML = "I played my move!";
+        setAllUI(true);
+    }
 }
 
 function playmodeExit()
@@ -695,15 +702,7 @@ function playmodeExit()
     inPlayMode = false
     playButton.innerHTML = "Enter Playmode!"
 
-    myTurnCheckbox.disabled = false;
-    oppTurnCheckbox.disabled = false;
-    iterDeepeningCheckbox.disabled = false;
-    infiniteDepthSelector.disabled = false;
-    quiescenceSearchCheckbox.disabled = false;
-    quiLimitInputField.disabled = false;
-    depthInputField.disabled = false;
-    goButton.disabled = false;
-    stopButton.disabled = false;
+    setAllUI(false);
 }
 
 function clickEvent(canvas, event) {
